@@ -582,6 +582,7 @@ class TemplateAPI(TemplateLM):
         **kwargs,
     ) -> Union[List[List[str]], List[List[Tuple[float, bool]]]]:
         ctxlens = ctxlens if ctxlens else [None] * len(requests)
+        cache_method = "generate_until" if generate else "loglikelihood"
         conn = TCPConnector(limit=self._concurrent, ssl=self.verify_certificate)
         sem = asyncio.Semaphore(self._concurrent)
         async with ClientSession(
@@ -595,10 +596,29 @@ class TemplateAPI(TemplateLM):
                     f"Retry attempt {retry_state.attempt_number}"
                 ),
             )(self.amodel_call)
-            # Create tasks for each batch of request
-            tasks = [
-                asyncio.create_task(
-                    retry_(
+            sync_retry_: Callable[..., Any] = retry(
+                stop=stop_after_attempt(self.max_retries),
+                wait=wait_exponential(multiplier=0.5, min=1, max=10),
+                reraise=True,
+                before_sleep=lambda retry_state: eval_logger.info(
+                    f"Sync fallback retry attempt {retry_state.attempt_number}"
+                ),
+            )(self.model_call)
+            batch_specs = list(
+                zip(
+                    chunks(requests, n=self._batch_size),
+                    chunks(cache_keys, n=self._batch_size),
+                    chunks(ctxlens, n=self._batch_size),
+                )
+            )
+
+            async def _safe_retry_call(
+                message: list,
+                cache_key: list,
+                ctxlen: list,
+            ) -> Union[list, BaseException]:
+                try:
+                    return await retry_(
                         session=session,
                         sem=sem,
                         messages=message,
@@ -607,15 +627,86 @@ class TemplateAPI(TemplateLM):
                         ctxlens=ctxlen,
                         **kwargs,
                     )
+                except BaseException as exc:
+                    return exc
+
+            # Create tasks for each batch of request.
+            tasks = [
+                asyncio.create_task(
+                    _safe_retry_call(message, cache_key, ctxlen)
                 )
-                for message, cache_key, ctxlen in zip(
-                    chunks(requests, n=self._batch_size),
-                    chunks(cache_keys, n=self._batch_size),
-                    chunks(ctxlens, n=self._batch_size),
-                )
+                for message, cache_key, ctxlen in batch_specs
             ]
 
-            return await tqdm_asyncio.gather(*tasks, desc="Requesting API")
+            raw_results = await tqdm_asyncio.gather(*tasks, desc="Requesting API")
+            normalized_results = []
+            for idx, result in enumerate(raw_results):
+                if isinstance(result, BaseException):
+                    message, batch_cache_keys, ctxlen = batch_specs[idx]
+                    batch_size = len(message)
+                    eval_logger.error(
+                        "API batch %s/%s failed after retries: %r. "
+                        "Trying synchronous fallback for %s request(s).",
+                        idx + 1,
+                        len(batch_specs),
+                        result,
+                        batch_size,
+                    )
+                    try:
+                        outputs = sync_retry_(
+                            messages=message,
+                            generate=generate,
+                            **kwargs,
+                        )
+                        parsed = (
+                            self.parse_generations(outputs=outputs)
+                            if generate
+                            else self.parse_logprobs(
+                                outputs=outputs,
+                                tokens=message,
+                                ctxlens=ctxlen,
+                            )
+                        )
+                        parsed = list(parsed)
+                        if len(parsed) != batch_size:
+                            eval_logger.warning(
+                                "Sync fallback returned %s outputs for batch size %s. "
+                                "Adjusting to preserve alignment.",
+                                len(parsed),
+                                batch_size,
+                            )
+                            fallback_value = "" if generate else (0.0, False)
+                            if len(parsed) < batch_size:
+                                parsed.extend(
+                                    [fallback_value] * (batch_size - len(parsed))
+                                )
+                            else:
+                                parsed = parsed[:batch_size]
+                        if batch_cache_keys:
+                            for res, cache in zip(parsed, batch_cache_keys):
+                                if res is not None:
+                                    self.cache_hook.add_partial(
+                                        cache_method, cache, res
+                                    )
+                        normalized_results.append(parsed)
+                        continue
+                    except BaseException as sync_exc:
+                        eval_logger.error(
+                            "Synchronous fallback for batch %s/%s also failed: %r. "
+                            "Substituting fallback outputs for %s request(s).",
+                            idx + 1,
+                            len(batch_specs),
+                            sync_exc,
+                            batch_size,
+                        )
+                        if generate:
+                            normalized_results.append([""] * batch_size)
+                        else:
+                            normalized_results.append([(0.0, False)] * batch_size)
+                    continue
+                normalized_results.append(result)
+
+            return normalized_results
 
     def _loglikelihood_tokens(self, requests, **kwargs) -> List[Tuple[float, bool]]:
         assert self.tokenizer is not None, (
