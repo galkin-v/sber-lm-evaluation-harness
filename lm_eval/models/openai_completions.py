@@ -371,7 +371,7 @@ class AzureOpenaiChatCompletionsLM(OpenAIChatCompletion):
         except ModuleNotFoundError:
             raise Exception(
                 "attempted to use 'openai' LM type, but package `openai` or `tiktoken` are not installed. \
-    please install these via `pip install lm-eval[openai]` or `pip install -e .[openai]`",
+    please install these via `uv pip install lm-eval[openai]` or `uv pip install -e .[openai]`",
             )
         self.model = model
         self.base_url = f"{base_url}/openai/deployments/{model}/chat/completions?api-version={api_version}"

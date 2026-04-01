@@ -11,7 +11,7 @@ try:
     from rouge_score import rouge_scorer, scoring
 except ImportError as e:
     raise type(e)(
-        "Required packages not installed. Please install the required packages via `pip install rouge_score sacrebleu`"
+        "Required packages not installed. Please install the required packages via `uv pip install rouge_score sacrebleu`"
     )
 
 

@@ -50,7 +50,7 @@ class OptimumLM(HFLM):
     ) -> None:
         if not find_spec("optimum"):
             raise ModuleNotFoundError(
-                "package `optimum` is not installed. Please install it via `pip install optimum[openvino]`"
+                "package `optimum` is not installed. Please install it via `uv pip install optimum[openvino]`"
             )
         else:
             from optimum.intel.openvino import OVModelForCausalLM, OVModelForSeq2SeqLM

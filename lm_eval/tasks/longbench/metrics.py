@@ -31,7 +31,7 @@ try:
     from rouge import Rouge
 except ImportError:
     raise ImportError(
-        'Please install the required dependencies for this task with `pip install lm_eval["longbench"] or `pip install jieba fuzzywuzzy rouge`'
+        'Please install the required dependencies for this task with `uv pip install lm_eval["longbench"] or `uv pip install jieba fuzzywuzzy rouge`'
     )
 
 # taken and slightly modified from https://github.com/THUDM/LongBench

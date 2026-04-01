@@ -16,7 +16,7 @@
 """Utility library of instructions."""
 
 #NOTE:INCLUDE spacy installation in requirements or README in the future.
-#pip3 install spacy    #The core library
+#uv pip install spacy    #The core library
 #python -m spacy download es_core_news_sm    #The Spanish language model for tokenization and other NLP tasks.
 
 import random

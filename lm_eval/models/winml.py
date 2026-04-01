@@ -132,7 +132,7 @@ class WindowsML(TemplateLM):
         except ImportError as e:
             raise ImportError(
                 "ONNX Runtime GenAI is required for WinML backend. "
-                "Install with: pip install onnxruntime-genai"
+                "Install with: uv pip install onnxruntime-genai"
             ) from e
 
         # Also import regular ONNX Runtime for EP registration
@@ -144,7 +144,7 @@ class WindowsML(TemplateLM):
         except ImportError as e:
             raise ImportError(
                 "ONNX Runtime is also required for execution provider registration. "
-                "Install with: pip install onnxruntime"
+                "Install with: uv pip install onnxruntime"
             ) from e
 
     def _fix_winrt_runtime(self):

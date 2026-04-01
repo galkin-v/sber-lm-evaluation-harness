@@ -76,7 +76,7 @@ class MambaLMWrapper(HFLM):
             except ModuleNotFoundError as exception:
                 raise type(exception)(
                     "attempted to use 'mamba_ssm' LM type, but package `mamba_ssm` is not installed. \
-    please install mamba via `pip install lm-eval[mamba]` or `pip install -e .[mamba]`",
+    please install mamba via `uv pip install lm-eval[mamba]` or `uv pip install -e .[mamba]`",
                 ) from exception
 
             self._config = load_config_hf(pretrained)
@@ -100,7 +100,7 @@ class MambaLMWrapper(HFLM):
             except ModuleNotFoundError as exception:
                 raise type(exception)(
                     "attempted to use 'mamba_ssm' LM type, but package `mamba_ssm` is not installed. \
-    please install mamba via `pip install lm-eval[mamba]` or `pip install -e .[mamba]`",
+    please install mamba via `uv pip install lm-eval[mamba]` or `uv pip install -e .[mamba]`",
                 ) from exception
 
             self._model = MambaLMHeadModel.from_pretrained(

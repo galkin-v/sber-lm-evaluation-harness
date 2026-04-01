@@ -2,7 +2,7 @@ import re
 
 
 def _missing_module_message(name):
-    return f"`{name}` is required for `japanese_leaderboard`, please install `{name}` via pip install lm_eval[japanese_leaderboard] or pip install -e .[japanese_leaderboard]"
+    return f"`{name}` is required for `japanese_leaderboard`, please install `{name}` via uv pip install lm_eval[japanese_leaderboard] or uv pip install -e .[japanese_leaderboard]"
 
 
 try:

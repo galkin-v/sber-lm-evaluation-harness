@@ -53,7 +53,7 @@ class IPEXLM(HFLM):
     ) -> None:
         if not find_spec("optimum"):
             raise ModuleNotFoundError(
-                "package `optimum` is not installed. Please install it via `pip install optimum[ipex]`"
+                "package `optimum` is not installed. Please install it via `uv pip install optimum[ipex]`"
             )
         else:
             from optimum.intel import IPEXModelForCausalLM

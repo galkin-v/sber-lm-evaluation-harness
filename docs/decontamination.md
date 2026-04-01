@@ -40,7 +40,7 @@ The relevant scripts can be found in `scripts/clean_training_data`, which also i
 `lm_eval/decontamination/`
 
 1. git clone https://github.com/EleutherAI/lm-evaluation-harness.git
-2. pip install -r requirements.txt
+2. uv pip install -r requirements.txt
 3. Download The Pile from [The Eye](https://the-eye.eu/public/AI/pile/train/)
 4. Place pile files in "pile" directory under "lm-evaluation-harness" (or create a symlink)
 5. Run generate_13_grams.

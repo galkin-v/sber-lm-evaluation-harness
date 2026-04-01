@@ -5,7 +5,7 @@ into `{org name}/bigbench`.
 Prior to running, log into HF Hub for the target HF hub org via `huggingface-cli login`.
 
 Requires the installation of
-`pip install "bigbench @ https://storage.googleapis.com/public_research_data/bigbench/bigbench-0.0.1.tar.gz"`
+`uv pip install "bigbench @ https://storage.googleapis.com/public_research_data/bigbench/bigbench-0.0.1.tar.gz"`
 and is included so that the bigbench dependency can be avoided.
 """
 

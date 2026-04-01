@@ -51,7 +51,7 @@ class Mistral3LM(HFLM):
             raise ImportError(
                 "Mistral3ForConditionalGeneration not found in transformers. "
                 "Please install transformers >= 5.0.0 or from main: "
-                "pip install git+https://github.com/huggingface/transformers"
+                "uv pip install git+https://github.com/huggingface/transformers"
             ) from None
 
         super().__init__(**kwargs)

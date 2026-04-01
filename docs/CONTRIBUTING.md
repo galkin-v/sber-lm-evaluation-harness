@@ -17,7 +17,7 @@ LM Evaluation Harness uses [ruff](https://github.com/astral-sh/ruff) for linting
 
 You can install linters and dev tools via
 
-```pip install lm_eval[dev]``` or ```pip install -e ".[dev]"```
+```uv pip install lm_eval[dev]``` or ```uv pip install -e ".[dev]"```
 
 Then, run
 

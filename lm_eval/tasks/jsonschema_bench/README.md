@@ -18,7 +18,7 @@ The JSONSchema Bench tasks are evaluated using the following two metrics:
 
 The JSONSchema Bench tasks require the `jsonschema` library to be installed. You can install it using pip:
 ```bash
-pip install jsonschema\[format\]
+uv pip install jsonschema\[format\]
 ```
 
 The `format` extra is required to support the `format` keyword in JSON Schema, which is used in the tasks.

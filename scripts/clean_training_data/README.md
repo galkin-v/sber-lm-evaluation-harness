@@ -30,7 +30,7 @@ Janitor can be used as a pure python program, but it is much faster if the ngram
 code is run in C++. To compile the C++ code, run
 
 ```bash
-pip install pybind11
+uv pip install pybind11
 c++ -O3 -Wall -shared -std=c++11 -fPIC $(python3 -m pybind11 --includes) janitor_util.cpp -o janitor_util$(python3-config --extension-suffix)
 ```
 

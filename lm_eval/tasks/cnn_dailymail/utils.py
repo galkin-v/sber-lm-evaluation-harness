@@ -13,7 +13,7 @@ try:
     ROUGE_AVAILABLE = True
 except ImportError:
     ROUGE_AVAILABLE = False
-    print("Warning: rouge_score not installed. Install with: pip install rouge-score")
+    print("Warning: rouge_score not installed. Install with: uv pip install rouge-score")
 
 try:
     from bert_score import score as bert_score
@@ -21,7 +21,7 @@ try:
     BERTSCORE_AVAILABLE = True
 except ImportError:
     BERTSCORE_AVAILABLE = False
-    print("Warning: bert_score not installed. Install with: pip install bert-score")
+    print("Warning: bert_score not installed. Install with: uv pip install bert-score")
 
 
 def normalize_text(text: str) -> str:

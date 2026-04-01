@@ -6,7 +6,7 @@
 
 ## Latest News 📣
 - [2025/12] **CLI refactored** with subcommands (`run`, `ls`, `validate`) and YAML config file support via `--config`. See the [CLI Reference](./docs/interface.md) and [Configuration Guide](./docs/config_files.md).
-- [2025/12] **Lighter install**: Base package no longer includes `transformers`/`torch`. Install model backends separately: `pip install lm_eval[hf]`, `lm_eval[vllm]`, etc.
+- [2025/12] **Lighter install**: Base package no longer includes `transformers`/`torch`. Install model backends separately: `uv pip install lm_eval[hf]`, `lm_eval[vllm]`, etc.
 - [2025/07] Added `think_end_token` arg to `hf` (token/str), `vllm` and `sglang` (str) for stripping CoT reasoning traces from models that support it.
 - [2025/03] Added support for steering HF models!
 - [2025/02] Added [SGLang](https://docs.sglang.ai/) support!
@@ -62,7 +62,7 @@ To install the `lm-eval` package from the github repository, run:
 ```bash
 git clone --depth 1 https://github.com/EleutherAI/lm-evaluation-harness
 cd lm-evaluation-harness
-pip install -e .
+uv pip install -e .
 ```
 
 ### Installing Model Backends
@@ -72,25 +72,25 @@ The base installation provides the core evaluation framework. **Model backends m
 For HuggingFace transformers models:
 
 ```bash
-pip install "lm_eval[hf]"
+uv pip install "lm_eval[hf]"
 ```
 
 For vLLM inference:
 
 ```bash
-pip install "lm_eval[vllm]"
+uv pip install "lm_eval[vllm]"
 ```
 
 For API-based models (OpenAI, Anthropic, etc.):
 
 ```bash
-pip install "lm_eval[api]"
+uv pip install "lm_eval[api]"
 ```
 
 Multiple backends can be installed together:
 
 ```bash
-pip install "lm_eval[hf,vllm,api]"
+uv pip install "lm_eval[hf,vllm,api]"
 ```
 
 A detailed table of all optional extras is available at the end of this document.
@@ -117,7 +117,7 @@ lm-eval ls tasks
 ### Hugging Face `transformers`
 
 > [!Important]
-> To use the HuggingFace backend, first install: `pip install "lm_eval[hf]"`
+> To use the HuggingFace backend, first install: `uv pip install "lm_eval[hf]"`
 
 To evaluate a model hosted on the [HuggingFace Hub](https://huggingface.co/models) (e.g. GPT-J-6B) on `hellaswag` you can use the following command (this assumes you are using a CUDA-compatible GPU):
 
@@ -429,7 +429,7 @@ lm_eval --model vllm \
     --batch_size auto
 ```
 
-To use vllm, do `pip install "lm_eval[vllm]"`. For a full list of supported vLLM configurations, please reference our [vLLM integration](https://github.com/EleutherAI/lm-evaluation-harness/blob/e74ec966556253fbe3d8ecba9de675c77c075bce/lm_eval/models/vllm_causallms.py) and the vLLM documentation.
+To use vllm, do `uv pip install "lm_eval[vllm]"`. For a full list of supported vLLM configurations, please reference our [vLLM integration](https://github.com/EleutherAI/lm-evaluation-harness/blob/e74ec966556253fbe3d8ecba9de675c77c075bce/lm_eval/models/vllm_causallms.py) and the vLLM documentation.
 
 vLLM occasionally differs in output from Huggingface. We treat Huggingface as the reference implementation and provide a [script](./scripts/model_comparator.py) for checking the validity of vllm results against HF.
 
@@ -474,7 +474,7 @@ https://learn.microsoft.com/en-us/windows/ai/new-windows-ml/overview
 To use Windows ML, install the required dependencies:
 
 ```bash
-pip install wasdk-Microsoft.Windows.AI.MachineLearning[all] wasdk-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap onnxruntime-windowsml onnxruntime-genai-winml
+uv pip install wasdk-Microsoft.Windows.AI.MachineLearning[all] wasdk-Microsoft.Windows.ApplicationModel.DynamicDependency.Bootstrap onnxruntime-windowsml onnxruntime-genai-winml
 ```
 
 Evaluate an ONNX Runtime GenAI LLM on NPU/GPU/CPU on Windows:
@@ -495,7 +495,7 @@ lm_eval --model winml \
 ### Model APIs and Inference Servers
 
 > [!Important]
-> To use API-based models, first install: `pip install "lm_eval[api]"`
+> To use API-based models, first install: `uv pip install "lm_eval[api]"`
 
 Our library also supports the evaluation of models served via several commercial APIs, and we hope to implement support for the most commonly used performant local/self-hosted inference servers.
 
@@ -705,7 +705,7 @@ The integration provide functionalities
 - log task and cli specific configs,
 - and more out of the box like the command used to run the evaluation, GPU/CPU counts, timestamp, etc.
 
-First you'll need to install the lm_eval[wandb] package extra. Do `pip install lm_eval[wandb]`.
+First you'll need to install the lm_eval[wandb] package extra. Do `uv pip install lm_eval[wandb]`.
 
 Authenticate your machine with an your unique W&B token. Visit https://wandb.ai/authorize to get one. Do `wandb login` in your command line terminal.
 
@@ -737,7 +737,7 @@ To get started with development, first clone the repository and install the dev 
 ```bash
 git clone https://github.com/EleutherAI/lm-evaluation-harness
 cd lm-evaluation-harness
-pip install -e ".[dev,hf]"
+uv pip install -e ".[dev,hf]"
 ````
 
 ### Implementing new tasks
@@ -761,7 +761,7 @@ The best way to get support is to open an issue on this repo or join the [Eleuth
 
 ## Optional Extras
 
-Extras dependencies can be installed via `pip install -e ".[NAME]"`
+Extras dependencies can be installed via `uv pip install -e ".[NAME]"`
 
 ### Model Backends
 

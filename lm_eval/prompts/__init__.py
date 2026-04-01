@@ -34,7 +34,7 @@ def get_prompt(prompt_id: str, dataset_name: str = None, subset_name: str = None
         except ModuleNotFoundError as exception:
             raise type(exception)(
                 "Tried to load a Promptsource template, but promptsource is not installed ",
-                "please install promptsource via pip install lm-eval[promptsource] or pip install -e .[promptsource]",
+                "please install promptsource via uv pip install lm-eval[promptsource] or uv pip install -e .[promptsource]",
             )
         try:
             if subset_name is None:

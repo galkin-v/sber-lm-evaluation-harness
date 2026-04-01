@@ -15,7 +15,7 @@ If you haven't already, go ahead and fork the main repo, clone it, create a bran
 git clone https://github.com/<YOUR-USERNAME>/lm-evaluation-harness.git
 cd lm-evaluation-harness
 git checkout -b <task-name>
-pip install -e ".[dev]"
+uv pip install -e ".[dev]"
 ```
 
 In this document, we'll walk through the basics of implementing a static benchmark evaluation in two formats: a *generative* task which requires sampling text from a model, such as [`gsm8k`](https://github.com/EleutherAI/lm-evaluation-harness/blob/main/lm_eval/tasks/gsm8k/gsm8k.yaml), and a *discriminative*, or *multiple choice*, task where the model picks the most likely of several fixed answer choices, such as [`sciq`](https://github.com/EleutherAI/lm-evaluation-harness/blob/main/lm_eval/tasks/sciq/sciq.yaml).

@@ -164,7 +164,7 @@ class VLLM(TemplateLM):
         if not find_spec("vllm"):
             raise ModuleNotFoundError(
                 "attempted to use 'vllm' LM type, but package `vllm` is not installed. "
-                "Please install vllm via `pip install lm-eval[vllm]` or `pip install -e .[vllm]`"
+                "Please install vllm via `uv pip install lm-eval[vllm]` or `uv pip install -e .[vllm]`"
             )
 
         assert max_length is None or max_model_len is None, (

@@ -20,7 +20,7 @@ try:
 except (ModuleNotFoundError, AssertionError) as e:
     raise type(e)(
         "`sympy`, `math_verify` and `antlr4-python3-runtime==4.11` are required for generating translation task prompt templates. "
-        "Please install the required packages via pip install lm-eval[math] or pip install -e .[math]"
+        "Please install the required packages via uv pip install lm-eval[math] or uv pip install -e .[math]"
     ) from e
 
 

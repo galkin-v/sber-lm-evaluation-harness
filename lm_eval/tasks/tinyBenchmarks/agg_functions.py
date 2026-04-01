@@ -8,7 +8,7 @@ try:
 except ModuleNotFoundError:
     raise ModuleNotFoundError(
         "`tinyBenchmarks` is required for tinyBenchmarks task metric calculation, install via \
-`pip install git+https://github.com/felipemaiapolo/tinyBenchmarks`"
+`uv pip install git+https://github.com/felipemaiapolo/tinyBenchmarks`"
     )
 
 

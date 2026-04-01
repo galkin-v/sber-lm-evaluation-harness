@@ -11,7 +11,7 @@ try:
     from jsonschema import Draft202012Validator, FormatChecker, ValidationError
 except ImportError as e:
     raise ImportError(
-        "jsonschema is not installed. Please install it using 'pip install jsonschema[format]'"
+        "jsonschema is not installed. Please install it using 'uv pip install jsonschema[format]'"
     ) from e
 
 eval_logger = logging.getLogger(__name__)

@@ -14,7 +14,7 @@ try:
 except ModuleNotFoundError:
     raise ModuleNotFoundError(
         "`math-verify`, `sympy>=1.12`, and antlr4-python3-runtime==4.11 is required for generating translation task prompt templates. \
-please install via pip install lm-eval[math] or pip install -e .[math]",
+please install via uv pip install lm-eval[math] or uv pip install -e .[math]",
     )
 
 

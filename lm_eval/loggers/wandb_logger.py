@@ -43,7 +43,7 @@ class WandbLogger:
         except Exception as e:
             logger.warning(
                 "To use the wandb reporting functionality please install wandb>=0.13.6.\n"
-                "To install the latest version of wandb run `pip install wandb --upgrade`\n"
+                "To install the latest version of wandb run `uv pip install wandb --upgrade`\n"
                 f"{e}"
             )
 

@@ -30,7 +30,7 @@ _CITATION = """
 def assert_unitxt_installed():
     if importlib.util.find_spec("unitxt") is None:
         raise Exception(
-            "Please install unitxt via 'pip install unitxt'. For more information see: https://www.unitxt.ai/"
+            "Please install unitxt via 'uv pip install unitxt'. For more information see: https://www.unitxt.ai/"
         )
 
     from unitxt import __version__ as unitxt_version
@@ -39,7 +39,7 @@ def assert_unitxt_installed():
     unitxt_version = tuple(map(int, (unitxt_version.split("."))))
     if unitxt_version < (1, 17, 2):
         raise Exception(
-            "Please install a more recent version of unitxt via 'pip install --upgrade unitxt' to avoid errors due to breaking changes"
+            "Please install a more recent version of unitxt via 'uv pip install --upgrade unitxt' to avoid errors due to breaking changes"
         )
 
 

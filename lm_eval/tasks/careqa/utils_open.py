@@ -11,7 +11,7 @@ try:
 
 except (ModuleNotFoundError, ImportError):
     raise ModuleNotFoundError(
-        "Please install evaluation metrics via pip install evaluate and pip install bert-score",
+        "Please install evaluation metrics via uv pip install evaluate and uv pip install bert-score",
     )
 except Exception as e:
     raise RuntimeError(

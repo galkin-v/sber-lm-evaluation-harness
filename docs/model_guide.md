@@ -13,7 +13,7 @@ To get started contributing, go ahead and fork the main repo, clone it, create a
 git clone https://github.com/<YOUR-USERNAME>/lm-evaluation-harness.git
 cd lm-evaluation-harness
 git checkout -b <model-type>
-pip install -e ".[dev]"
+uv pip install -e ".[dev]"
 ```
 
 Now, we'll create a new file where we'll be adding our model:

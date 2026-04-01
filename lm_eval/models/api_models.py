@@ -150,7 +150,7 @@ class TemplateAPI(TemplateLM):
         if missing_packages:
             raise ModuleNotFoundError(
                 f"Attempted to use an API model, but the required packages {missing_packages} are not installed. "
-                'Please install these via `pip install lm-eval[api]` or `pip install -e ."[api]"`'
+                'Please install these via `uv pip install lm-eval[api]` or `uv pip install -e ."[api]"`'
             )
         self.model = model or pretrained
         self.base_url = base_url
@@ -215,7 +215,7 @@ class TemplateAPI(TemplateLM):
                     except ModuleNotFoundError as e:
                         raise ModuleNotFoundError(
                             "Attempted to use 'openai' LM type, but the package `tiktoken` is not installed. "
-                            "Please install it via `pip install lm-eval[api]` or `pip install -e .[api]`."
+                            "Please install it via `uv pip install lm-eval[api]` or `uv pip install -e .[api]`."
                         ) from e
                     if "openai" not in self.base_url:
                         eval_logger.warning(

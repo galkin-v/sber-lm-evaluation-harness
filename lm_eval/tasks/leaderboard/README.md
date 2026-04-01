@@ -19,7 +19,7 @@ To install the `lm-eval` package with support for leaderboard evaluations, run:
 ```bash
 git clone --depth 1 https://github.com/EleutherAI/lm-evaluation-harness
 cd lm-evaluation-harness
-pip install -e ".[math,ifeval,sentencepiece]"
+uv pip install -e ".[math,ifeval,sentencepiece]"
 ```
 
 ## BigBenchHard (BBH)

@@ -12,7 +12,7 @@ try:
     normalizer = pymorphy3.MorphAnalyzer()
 except ImportError:
     print(
-        "Can not import pymorphy3. If you try to score libra, do `pip install pymorphy3`"
+        "Can not import pymorphy3. If you try to score libra, do `uv pip install pymorphy3`"
     )
 
 

@@ -29,7 +29,7 @@ To obtain accurate results, this task applies post-processing using the *tinyBen
 You can install the package by running the following commands on the terminal (for more information see [here](https://github.com/felipemaiapolo/tinyBenchmarks/blob/main/README.md?plain=1)):
 
 ``` :sh
-pip install git+https://github.com/felipemaiapolo/tinyBenchmarks
+uv pip install git+https://github.com/felipemaiapolo/tinyBenchmarks
 ```
 
 The value that is returned by the task corresponds to the '**IRT++**'-method from the [original paper](https://arxiv.org/abs/2402.14992).

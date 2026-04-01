@@ -149,12 +149,12 @@ class NEURON_HF(TemplateLM):
         if not NEURON_AVAILABLE:
             raise ImportError(
                 "Tried to load neuron model, but neuron is not installed ",
-                "please install neuron via pip install transformers-neuron ",
+                "please install neuron via uv pip install transformers-neuron ",
                 "also make sure you are running on an AWS inf2 instance",
             )
         if version.parse(optimum_neuron_version) != version.parse("0.0.24"):
             logger.warning(
-                '`optimum-neuron` model requires `pip install "optimum[neuronx]>=0.0.17" '
+                '`optimum-neuron` model requires `uv pip install "optimum[neuronx]>=0.0.17" '
                 "preferably using the Hugging Face Neuron Deep Learning AMI (Ubuntu 22.04) "
                 "https://aws.amazon.com/marketplace/pp/prodview-gr3e6yiscria2 "
                 f"You are using optimum-neuron={optimum_neuron_version}"

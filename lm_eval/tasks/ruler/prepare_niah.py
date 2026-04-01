@@ -33,7 +33,7 @@ try:
     from nltk import sent_tokenize
 except ImportError:
     raise ImportError(
-        'Please install the `wonderwords` and `nltk` packages to run this script. You can install them with `pip install lm_eval["ruler"]` or`pip install wonderwords nltk`.'
+        'Please install the `wonderwords` and `nltk` packages to run this script. You can install them with `uv pip install lm_eval["ruler"]` or`uv pip install wonderwords nltk`.'
     )
 
 
