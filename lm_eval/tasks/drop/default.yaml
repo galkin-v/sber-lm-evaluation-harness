@@ -4,7 +4,7 @@ output_type: generate_until
 training_split: train
 validation_split: validation
 process_docs: !function utils.process_docs
-doc_to_text: "Passage: {{passage}}\nQuestion: {{question}}\nThink step by step. At the end, output only:\n####\n<answer>"
+doc_to_text: "Passage: {{passage}}\nQuestion: {{question}}\nThink step by step. Return the final answer as <answer>...</answer> with no other text (only the numbers / phrase)."
 doc_to_target: "{{ answer|join(',')}}"
 target_delimiter: ""
 process_results: !function utils.process_results
@@ -18,4 +18,4 @@ metric_list:
     aggregation: mean
     higher_is_better: true
 metadata:
-  version: 3.4
+  version: 3.7

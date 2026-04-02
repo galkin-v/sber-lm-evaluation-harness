@@ -3,7 +3,7 @@ dataset_path: AvitoTech/ru_drop
 output_type: generate_until
 test_split: test
 process_docs: !function utils.process_docs
-doc_to_text: "Текст: {{passage}}\nВопрос: {{question}}\nРазмышляй по шагам. В конце выведи только:\n####\n<ответ>"
+doc_to_text: "Текст: {{passage}}\nВопрос: {{question}}\nРазмышляй по шагам. Верни финальный ответ в формате <answer>...</answer> без другого текста (только числа или фраза)."
 doc_to_target: "{{ answer|join(',')}}"
 target_delimiter: ""
 process_results: !function utils.process_results
@@ -17,4 +17,4 @@ metric_list:
     aggregation: mean
     higher_is_better: true
 metadata:
-  version: 3.3
+  version: 3.6

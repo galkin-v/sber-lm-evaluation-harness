@@ -5,7 +5,7 @@ import numpy as np
 
 
 _ARTICLES = re.compile(r"\b(a|an|the)\b", re.UNICODE)
-_FINAL_ANSWER_RE = re.compile(r"####\s*(.+?)(?:\n|$)")
+_ANSWER_TAG_RE = re.compile(r"<answer>\s*(.*?)\s*</answer>", re.IGNORECASE | re.DOTALL)
 
 
 def process_docs(dataset):
@@ -76,7 +76,7 @@ def process_results(doc, results):
 
 def _extract_final_answer(prediction):
     if isinstance(prediction, str):
-        matches = _FINAL_ANSWER_RE.findall(prediction)
+        matches = _ANSWER_TAG_RE.findall(prediction)
         if matches:
             return matches[-1].strip()
         return prediction.strip()
