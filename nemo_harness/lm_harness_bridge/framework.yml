@@ -1,0 +1,56 @@
+framework:
+  name: lm-harness
+  pkg_name: lm_harness_bridge
+  full_name: sber-lm-evaluation-harness bridge
+  description: Wraps local sber-lm-evaluation-harness provider runner for NeMo Evaluator.
+  url: https://github.com/EleutherAI/lm-evaluation-harness
+
+defaults:
+  command: >-
+    cd /workspace/sber-lm-evaluation-harness &&
+    python3 benchmark_provider_runner.py
+    --benchmark-name {{config.params.task}}
+    --task {{config.params.task}}
+    --output-dir {{config.output_dir}}
+    --candidate-base-url "{{target.api_endpoint.url | replace('/chat/completions', '')}}"
+    --candidate-model-id "{{target.api_endpoint.model_id}}"
+    --candidate-api-key "{% if target.api_endpoint.get('api_key_name') is not none %}${{target.api_endpoint.get('api_key_name')}}{% elif target.api_endpoint.get('api_key') is not none %}${{target.api_endpoint.get('api_key')}}{% endif %}"
+    --parallelism {{config.params.parallelism}}
+    --request-timeout {{config.params.request_timeout}}
+    --limit-samples {{config.params.limit_samples}}
+    --request-params-json '{"temperature": {{config.params.temperature}}, "top_p": {{config.params.top_p}}, "max_tokens": {{config.params.max_new_tokens}}}'
+    --resume 1
+    --show-live-stats 1
+  config:
+    params:
+      task: ifeval
+      temperature: 0.0
+      top_p: 1.0
+      max_new_tokens: 4096
+      parallelism: 8
+      request_timeout: 900
+      limit_samples: -1
+  target:
+    api_endpoint:
+      type: chat
+
+evaluations:
+  - name: benchmark
+    description: Generic lm-evaluation-harness benchmark via sber-lm-evaluation-harness.
+    defaults:
+      config:
+        type: benchmark
+        supported_endpoint_types:
+          - chat
+        params:
+          task: ifeval
+
+  - name: ifeval
+    description: English IFEval via sber-lm-evaluation-harness (alias of benchmark).
+    defaults:
+      config:
+        type: ifeval
+        supported_endpoint_types:
+          - chat
+        params:
+          task: ifeval
