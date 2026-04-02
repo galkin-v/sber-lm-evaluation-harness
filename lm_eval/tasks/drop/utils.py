@@ -5,6 +5,7 @@ import numpy as np
 
 
 _ARTICLES = re.compile(r"\b(a|an|the)\b", re.UNICODE)
+_FINAL_ANSWER_RE = re.compile(r"####\s*(.+?)(?:\n|$)")
 
 
 def process_docs(dataset):
@@ -62,7 +63,7 @@ def parse_answer(answer):
 
 
 def process_results(doc, results):
-    preds, golds = results, doc["answers"]
+    preds, golds = _extract_final_answer(results), doc["answers"]
     max_em = 0
     max_f1 = 0
     for gold_answer in golds:
@@ -71,6 +72,19 @@ def process_results(doc, results):
             max_em = max(max_em, exact_match)
             max_f1 = max(max_f1, f1_score)
     return {"em": max_em, "f1": max_f1}
+
+
+def _extract_final_answer(prediction):
+    if isinstance(prediction, str):
+        matches = _FINAL_ANSWER_RE.findall(prediction)
+        if matches:
+            return matches[-1].strip()
+        return prediction.strip()
+    if isinstance(prediction, tuple):
+        return tuple(_extract_final_answer(item) for item in prediction)
+    if isinstance(prediction, list):
+        return [_extract_final_answer(item) for item in prediction]
+    return prediction
 
 
 def get_metrics(predicted, gold):
