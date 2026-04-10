@@ -91,8 +91,51 @@ def _extract_prompt(value: Any) -> str:
 
 
 def _extract_response(value: Any) -> str:
-    text = _first_text_content(value)
-    return text or ""
+    if isinstance(value, str):
+        return value.strip()
+
+    if isinstance(value, list):
+        for item in value:
+            text = _extract_response(item)
+            if text:
+                return text
+        return ""
+
+    if not isinstance(value, Mapping):
+        return ""
+
+    # Most lm-harness response logs keep parsed text as a top-level list.
+    parsed_text = _extract_response(value.get("parsed"))
+    if parsed_text:
+        return parsed_text
+
+    # OpenAI-compatible response envelope.
+    outputs = value.get("outputs")
+    if isinstance(outputs, Mapping):
+        choices = outputs.get("choices")
+        if isinstance(choices, list) and choices:
+            first_choice = choices[0] if isinstance(choices[0], Mapping) else {}
+            message = first_choice.get("message") if isinstance(first_choice, Mapping) else {}
+            content = _first_text_content(message)
+            if content:
+                return content
+
+    # Some providers may emit raw choices directly.
+    choices = value.get("choices")
+    if isinstance(choices, list) and choices:
+        first_choice = choices[0] if isinstance(choices[0], Mapping) else {}
+        message = first_choice.get("message") if isinstance(first_choice, Mapping) else {}
+        content = _first_text_content(message)
+        if content:
+            return content
+
+    # Backward/alternate fields used by some bridges.
+    for key in ("answers", "outputs", "response", "content", "text"):
+        text = _extract_response(value.get(key))
+        if text:
+            return text
+
+    return ""
 
 
 def _sanitize_metric_name(metric_name: str) -> str:
